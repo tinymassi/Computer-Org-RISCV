@@ -1,11 +1,15 @@
 #include <iostream>
 #include <stack>
-#include "olcConsoleGameEngine.h"
+// #include "olcConsoleGameEngine.h"
+#define OLC_PGE_APPLICATION
+#include "olcPixelGameEngine.h"
 
-class OneLoneCoder_Maze : public olcConsoleGameEngine {  // inheriting members (methods & variables) from olcConsoleGameEngine
+using namespace std;
+
+class OneLoneCoder_Maze : public olc::PixelGameEngine {  // inheriting members (methods & variables) from olcConsoleGameEngine
 public:
     OneLoneCoder_Maze() {  // constructor
-        m_sAppName = L"MAZE";  // L"MAZE" is a string literal & m_sAppName is from the parent class
+        sAppName = "MAZE";  // L"MAZE" is a string literal & m_sAppName is from the parent class
 
         // A string literal is represented under wchar_t data type. Each char in the string literal occupies two bytes of memory
         // this allows the string to handle unicode characters (something with windows API)
@@ -50,15 +54,15 @@ protected:  // different from 'private' as stuff in 'protected' can be accessed 
     virtual bool OnUserUpdate(float fElapsedTime) {
 
         // Clear Screen
-        Fill(0, 0, m_nScreenWidth, m_nScreenHeight, L' ');
+        FillRect(0, 0, ScreenWidth(), ScreenHeight(), L' ');
 
         // Draw Maze
-        for (int x = 0; x < m_nscreenWidth; x++) {  // move through maze width
-            for (int y = 0; y < m_nScreenHeight, y++) {  // move through maze height
+        for (int x = 0; x < m_nMazeWidth; x++) {  // move through maze width
+            for (int y = 0; y < m_nMazeHeight; y++) {  // move through maze height
                 if (m_maze[y * m_nMazeWidth + x] & CELL_VISITED) {  // if the cell real & is visited
-                    Draw(x, y, PIXEL_SOLID, FG_WHITE)  // draw a white box at position (x, y)
+                    Draw(x, y, olc::WHITE);  // draw a white box at position (x, y)
                 } else {  // if the cell is not visited
-                    Draw(x, y, PIXEL_SOLID, FG_BLUE)  // draw a blue box at the positon (x, y)
+                    Draw(x, y, olc::BLUE);  // draw a blue box at the positon (x, y)
                 }
             }
         }
@@ -71,8 +75,8 @@ protected:  // different from 'private' as stuff in 'protected' can be accessed 
 int main() {
 
     OneLoneCoder_Maze game;
-    game.ConstructConsole(160, 100, 8, 8);
-    game.Start();
+    // game.Construct(160, 100, 8, 8);
+    // game.Start();
 
     return 0;
 }
